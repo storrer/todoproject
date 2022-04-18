@@ -3,4 +3,14 @@
     {{ form }}
     <input type="submit" name="save" value="Save" />
     <input type="submit" name="delete" value="Delete" />
+    {% comment %} If the task is incomplete, display a button that will
+    change it to completed. If the task is complete, display a button that
+    will change it to incomplete.
+    {% endcomment %}
+    {% if task.completed %}
+        <input type="submit" name="incomplete" value="Mark Incomplete" />
+    {% endif %}
+    {% if not task.completed %}
+        <input type="submit" name="complete" value="Mark Complete" />
+    {% endif %}
 </form>

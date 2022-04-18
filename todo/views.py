@@ -8,11 +8,19 @@ from todo.forms import TaskForm
 class TodoListView(View):
     def get(self, request):
         '''GET the todo list homepage, listing all tasks in reverse order that they were created'''
-        tasks = Task.objects.all().order_by('-id')
+        #tasks = Task.objects.all().order_by('-id')
+        # Get all completed tasks and sort them by id in reverse order (newest first)
+        completed_tasks = Task.objects.filter(completed=True).order_by('-id')
+        # Get all uncompleted tasks and sort them by id in reverse order (newest first)
+        uncompleted_tasks = Task.objects.filter(completed=False).order_by('-id') # returns a QuerySet
         form = TaskForm()
-
+        context = {
+            'completed_tasks': completed_tasks,
+            'uncompleted_tasks': uncompleted_tasks,
+            'form': form
+        }
         return render(
-            request=request, template_name = 'list.html', context = {'tasks': tasks, 'form': form}
+            request=request, template_name = 'list.html', context = context
         )
 
     def post(self, request):
@@ -29,10 +37,10 @@ class TodoListView(View):
 class TodoDetailView(View):
     def get(self, request, task_id):
         '''GET the detail view of a single task on the todo list'''
-        task = Task.objects.get(id=task_id)
+        task = Task.objects.get(id=task_id) # returns a 
         form = TaskForm(initial={'description': task.description})
         return render(
-            request=request, template_name='detail.html', context={'form':form, 'id': task_id}
+            request=request, template_name='detail.html', context={'form':form, 'id': task_id, 'task': task}
         )
 
     def post(self, request, task_id):
@@ -45,6 +53,11 @@ class TodoDetailView(View):
                 task.update(description=task_description)
         elif 'delete' in request.POST:
             task.delete()
+        # Update the task completed status
+        elif 'complete' in request.POST:
+            task.update(completed=True)
+        elif 'incomplete' in request.POST:
+            task.update(completed=False)
 
         # "redirect" to the todo homepage
         return redirect('todo_list')
