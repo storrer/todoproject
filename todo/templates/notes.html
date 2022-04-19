@@ -1,0 +1,14 @@
+<h1>Notes to Self</h1>
+<ol>
+    {% comment %} Create an li for each note. {% endcomment %}
+    {% for note in notes %}
+        <li>{{ note.text }}</li>
+    {% endfor %}
+</ol>
+
+{% comment %} Note creation form. {% endcomment %}
+<form action="{% url 'notes' %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" name="add_note" value="Add Note" />
+</form>

@@ -1,8 +1,9 @@
+from http.client import HTTPResponse
 from django.shortcuts import render, redirect
 from django.views import View
 
-from todo.models import Task
-from todo.forms import TaskForm
+from todo.models import Task, Note
+from todo.forms import TaskForm, NoteForm
 
 
 class TodoListView(View):
@@ -61,3 +62,13 @@ class TodoDetailView(View):
 
         # "redirect" to the todo homepage
         return redirect('todo_list')
+
+class NoteView(View):
+    def get(self, request):
+        # Create a new form object/thing
+        form = NoteForm()
+        # Query my database/model for all notes (returns a QuerySet)
+
+        return render(request=request, template_name='notes.html', context = {'form':form})
+
+
