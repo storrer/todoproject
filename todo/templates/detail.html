@@ -14,3 +14,5 @@
         <input type="submit" name="complete" value="Mark Complete" />
     {% endif %}
 </form>
+{% comment %} Link to return to Todo List without saving changes {% endcomment %}
+<a href="{% url 'todo_list' %}">Cancel Changes and return to Todo List</a>
