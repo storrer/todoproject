@@ -12,3 +12,7 @@
     {{ form }}
     <input type="submit" name="add_note" value="Add Note" />
 </form>
+
+{% comment %} Link to Todo App page {% endcomment %}
+<h3>Switch to <a href="{% url 'todo_list' %}">Todo List</a>
+</h3>
