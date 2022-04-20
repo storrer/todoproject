@@ -25,7 +25,7 @@ class TodoListView(View):
         )
 
     def post(self, request):
-        '''POST the data in the from submitted by the user, creating a new task in the todo list'''
+        '''POST the data in the form submitted by the user, creating a new task in the todo list'''
         form=TaskForm(request.POST)
         if form.is_valid():
             task_description = form.cleaned_data['description']
@@ -65,10 +65,27 @@ class TodoDetailView(View):
 
 class NoteView(View):
     def get(self, request):
+        '''GET the notes homepage and list all notes in the order that they were
+        created'''
         # Create a new form object/thing
         form = NoteForm()
-        # Query my database/model for all notes (returns a QuerySet)
+        # Get all notes and sort them in the order that they were created
+        notes = Note.objects.all().order_by('id')
 
-        return render(request=request, template_name='notes.html', context = {'form':form})
+        return render(request=request, template_name='notes.html', context = {'notes':notes,'form':form})
+    def post(self, request):
+        '''POST the new note in the form submitted by the user, creating a new 
+        note'''
+        # Instantiate a form with the data from the user
+        form = NoteForm(request.POST)
+
+        # Validate the form
+        if form.is_valid():
+            # Retrieve the cleaned form data
+            note_text = form.cleaned_data['text']
+            # Create a new note in the database
+            Note.objects.create(text=note_text)
 
 
+        # Redirect browser to notes homepage
+        return redirect('notes')
