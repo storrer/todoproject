@@ -41,6 +41,4 @@ Now we'll make a way for users to keep a list of notes. This will be structured 
 8. Link your notes & todo pages together in a user-friendly way! Make hyperlinks at the bottom of each page that take you to the other page
     * So it is easy for a user to get from the to-do list to the notes and vice-versa, even if you don't know the exact URL
 
-## Nice work! Commit your work, push, and send a pull request for your TA to review! 
 
-Nice job, you finished the challenge!
